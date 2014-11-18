@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:wheezy
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 ENV DEBIAN_FRONTEND noninteractive
