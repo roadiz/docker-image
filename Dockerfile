@@ -21,7 +21,8 @@ RUN echo "mysql-server-5.6 mysql-server/root_password password root" | debconf-s
     echo "mysql-server-5.6 mysql-server/root_password_again password root" | debconf-set-selections
 
 RUN apt-get install -y nginx zip git curl nano php5-cli php5-fpm mysql-server \
-    php5-xcache php5-gd php5-mysql php5-imap php5-curl php5-imagick php5-intl
+    php5-xcache php5-gd php5-mysql php5-imap php5-curl php5-imagick php5-intl && \
+    apt-get install -y logrotate
 
 # Copy nginx virtual host
 COPY vhost.conf /etc/nginx/sites-enabled/default
@@ -35,8 +36,7 @@ RUN chmod 600 /root/.ssh/id_rsa && \
     echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 # Create web root
-RUN mkdir -p /renzo && \
-    chown -R www-data:www-data /renzo
+RUN mkdir -p /renzo
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php && \
@@ -44,10 +44,10 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 
 # Edit some php-fpm configs
 RUN sed -e 's/;cgi.fix_pathinfo = 0/cgi.fix_pathinfo = 0/' -i /etc/php5/fpm/php.ini && \
-    sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf && \
+    sed -e 's/post_max_size = 8M/post_max_size = 128M/' -i /etc/php5/fpm/php.ini && \
+    sed -e 's/upload_max_filesize = 2M/upload_max_filesize = 128M/' -i /etc/php5/fpm/php.ini && \
     sed -e 's/;listen\.owner/listen.owner/' -i /etc/php5/fpm/pool.d/www.conf && \
-    sed -e 's/;listen\.group/listen.group/' -i /etc/php5/fpm/pool.d/www.conf && \
-    echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+    sed -e 's/;listen\.group/listen.group/' -i /etc/php5/fpm/pool.d/www.conf
 
 # We need mysql started to create empty database
 RUN service mysql start && \
@@ -62,6 +62,8 @@ WORKDIR /renzo
 RUN git clone -b develop git@gitlab.rezo-zero.com:rezo-zero-open-source/renzo.git ./
 RUN cp conf/config.default.json conf/config.json
 RUN composer install
+
+RUN chown -R www-data:www-data /renzo
 
 EXPOSE 80
 
