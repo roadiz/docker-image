@@ -49,6 +49,9 @@ RUN sed -e 's/;cgi.fix_pathinfo = 0/cgi.fix_pathinfo = 0/' -i /etc/php5/fpm/php.
     sed -e 's/;listen\.owner/listen.owner/' -i /etc/php5/fpm/pool.d/www.conf && \
     sed -e 's/;listen\.group/listen.group/' -i /etc/php5/fpm/pool.d/www.conf
 
+# Get custom config for xcache
+COPY xcache.ini /etc/php5/mods-available/xcache.ini
+
 # We need mysql started to create empty database
 RUN service mysql start && \
     mysql -u root -proot -e "CREATE DATABASE renzo;"
