@@ -36,7 +36,7 @@ RUN chmod 600 /root/.ssh/id_rsa && \
     echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 # Create web root
-RUN mkdir -p /renzo
+RUN mkdir -p /roadiz
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php && \
@@ -54,19 +54,19 @@ COPY xcache.ini /etc/php5/mods-available/xcache.ini
 
 # We need mysql started to create empty database
 RUN service mysql start && \
-    mysql -u root -proot -e "CREATE DATABASE renzo;"
+    mysql -u root -proot -e "CREATE DATABASE roadiz;"
 
 # Copy startup script
 COPY init.sh /init.sh
 RUN chmod +x /init.sh
 
 #### Install Renzo
-WORKDIR /renzo
-RUN git clone -b develop git@gitlab.rezo-zero.com:rezo-zero-open-source/renzo.git ./
+WORKDIR /roadiz
+RUN git clone -b develop git@gitlab.rezo-zero.com:rezo-zero-open-source/roadiz.git ./
 RUN cp conf/config.default.json conf/config.json
 RUN composer install
 
-RUN chown -R www-data:www-data /renzo
+RUN chown -R www-data:www-data /roadiz
 
 EXPOSE 80
 

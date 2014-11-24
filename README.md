@@ -1,4 +1,4 @@
-# Quick and dirty docker for Renzo
+# Quick and dirty docker for Roadiz
 **Use only for testing purposes**
 
 * Nginx
@@ -12,10 +12,10 @@ before *building* your own image.
 
 ```
 # Build me
-docker build -t ambroisemaupate/renzo ./renzo
+docker build -t ambroisemaupate/roadiz ./roadiz
 
 # Run me
-docker run -t -p 8080:80 ambroisemaupate/renzo
+docker run -t -p 8080:80 ambroisemaupate/roadiz
 ```
 
 ## MySQL
@@ -23,4 +23,4 @@ docker run -t -p 8080:80 ambroisemaupate/renzo
 * Host: `localhost`
 * User: `root`
 * Pass: `root`
-* Base: `renzo`
+* Base: `roadiz`
