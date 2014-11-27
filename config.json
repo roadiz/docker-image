@@ -1,0 +1,21 @@
+{
+        "appNamespace": "dockerImageForRoadizTest",
+        "install": true,
+        "devMode": true,
+        "timezone": "Europe/Paris",
+        "doctrine": {
+                "driver":   "pdo_mysql",
+                "host":     "localhost",
+                "user":     "root",
+                "password": "root",
+                "dbname":   "roadiz"
+        },
+        "security": {
+                "secret": "dockerImageForRoadizTestBlaBla"
+        },
+    "entities": [
+        "src/Roadiz/Core/Entities",
+        "src/Roadiz/Core/AbstractEntities",
+        "gen-src/GeneratedNodeSources"
+    ]
+}
