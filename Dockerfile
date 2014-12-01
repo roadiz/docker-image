@@ -29,10 +29,7 @@ COPY vhost.conf /etc/nginx/sites-enabled/default
 
 # Prepare private key for downloading Renzo
 RUN mkdir -p /root/.ssh && \
-    chmod -R 0700 /root/.ssh
-
-COPY id_rsa.dockerRenzoTest /root/.ssh/id_rsa
-RUN chmod 600 /root/.ssh/id_rsa && \
+    chmod -R 0700 /root/.ssh && \
     echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 # Create web root
@@ -62,7 +59,7 @@ RUN chmod +x /init.sh
 
 #### Install Renzo
 WORKDIR /roadiz
-RUN git clone -b develop git@gitlab.rezo-zero.com:rezo-zero-open-source/roadiz.git ./
+RUN git clone https://github.com/roadiz/roadiz.git ./
 RUN composer install
 
 # Copy default conf for Roadiz
