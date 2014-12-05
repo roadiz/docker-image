@@ -11,16 +11,20 @@ RUN echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list &&
     echo "deb-src http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list && \
     echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list && \
     echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list && \
+    echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list && \
+    echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list && \
     wget http://www.dotdeb.org/dotdeb.gpg && \
-    apt-key add dotdeb.gpg
+    apt-key add dotdeb.gpg && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
 
 RUN apt-get update -yqq
 
 # Install MySQL Server in a Non-Interactive mode. Default root password will be "root"
 RUN echo "mysql-server-5.6 mysql-server/root_password password root" | debconf-set-selections && \
-    echo "mysql-server-5.6 mysql-server/root_password_again password root" | debconf-set-selections
+    echo "mysql-server-5.6 mysql-server/root_password_again password root" | debconf-set-selections && \
+    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 
-RUN apt-get install -y nginx zip git curl nano php5-cli php5-fpm mysql-server \
+RUN apt-get install -y oracle-java8-installer solr-tomcat nginx zip git curl nano php5-cli php5-fpm mysql-server \
     php5-xcache php5-gd php5-mysql php5-imap php5-curl php5-imagick php5-intl && \
     apt-get install -y logrotate
 
