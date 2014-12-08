@@ -77,7 +77,7 @@ RUN git clone https://github.com/roadiz/roadiz.git ./
 RUN composer install
 
 # Copy default conf for Roadiz
-COPY config.json ./conf/config.json
+COPY config.json /roadiz/conf/config.json
 
 RUN chown -R www-data:www-data /roadiz
 
