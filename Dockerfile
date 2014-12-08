@@ -52,14 +52,12 @@ COPY xcache.ini /etc/php5/mods-available/xcache.ini
 
 
 # ----------- Install Solr --------------
-WORKDIR /var
+
 RUN curl http://mir2.ovh.net/ftp.apache.org/dist/lucene/solr/4.10.2/solr-4.10.2.tgz | tar xz && \
-    mv solr-4.10.2 solr
+    mv solr-4.10.2 /var/solr
 
-WORKDIR /var/solr/example/solr
-COPY solrCollection roadiz
+COPY solrCollection /var/solr/example/solr/roadiz
 
-WORKDIR /
 COPY solr.init /etc/init.d/solr
 RUN chmod +x /etc/init.d/solr
 
@@ -79,7 +77,7 @@ RUN git clone https://github.com/roadiz/roadiz.git ./
 RUN composer install
 
 # Copy default conf for Roadiz
-COPY config.json conf/config.json
+COPY config.json ./conf/config.json
 
 RUN chown -R www-data:www-data /roadiz
 

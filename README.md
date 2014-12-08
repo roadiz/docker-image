@@ -4,6 +4,7 @@
 * Nginx
 * Mysql
 * PHP5-FPM
+* Solr instance (english)
 
 Run on port 8080 --> 80
 On IP 192.168.59.103. Change in `vhost.conf` with your own network configuration
@@ -16,6 +17,9 @@ docker build -t ambroisemaupate/roadiz ./roadiz
 
 # Run me for the first time
 docker run -t -p 8080:80 ambroisemaupate/roadiz
+
+# Enter in container for config
+docker exec -ti <containerID> /bin/bash
 ```
 
 ## MySQL
@@ -24,3 +28,7 @@ docker run -t -p 8080:80 ambroisemaupate/roadiz
 * User: `root`
 * Pass: `root`
 * Base: `roadiz`
+
+## Solr
+
+*Solr* is setup with a `roadiz` collection and run internally on port `8983`.
