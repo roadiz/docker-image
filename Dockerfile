@@ -11,11 +11,8 @@ RUN echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list &&
     echo "deb-src http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list && \
     echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list && \
     echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list && \
-    echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list && \
-    echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list && \
     wget http://www.dotdeb.org/dotdeb.gpg && \
-    apt-key add dotdeb.gpg && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
+    apt-key add dotdeb.gpg
 
 RUN apt-get update -yqq
 
@@ -24,7 +21,7 @@ RUN echo "mysql-server-5.6 mysql-server/root_password password root" | debconf-s
     echo "mysql-server-5.6 mysql-server/root_password_again password root" | debconf-set-selections && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 
-RUN apt-get install -y oracle-java8-installer solr-tomcat nginx zip git curl nano php5-cli php5-fpm mysql-server \
+RUN apt-get install -y openjdk-7-jre-headless nginx zip git curl nano php5-cli php5-fpm mysql-server \
     php5-xcache php5-gd php5-mysql php5-imap php5-curl php5-imagick php5-intl && \
     apt-get install -y logrotate
 
@@ -52,6 +49,21 @@ RUN sed -e 's/;cgi.fix_pathinfo = 0/cgi.fix_pathinfo = 0/' -i /etc/php5/fpm/php.
 
 # Get custom config for xcache
 COPY xcache.ini /etc/php5/mods-available/xcache.ini
+
+
+# ----------- Install Solr --------------
+WORKDIR /var
+RUN curl http://mir2.ovh.net/ftp.apache.org/dist/lucene/solr/4.10.2/solr-4.10.2.tgz | tar xz && \
+    mv solr-4.10.2 solr
+
+WORKDIR /var/solr/example/solr
+COPY solrCollection roadiz
+
+WORKDIR /
+COPY solr.init /etc/init.d/solr
+RUN chmod +x /etc/init.d/solr
+
+# ----------- Install Roadiz ------------
 
 # We need mysql started to create empty database
 RUN service mysql start && \

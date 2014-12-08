@@ -14,7 +14,7 @@ before *building* your own image.
 # Build me
 docker build -t ambroisemaupate/roadiz ./roadiz
 
-# Run me
+# Run me for the first time
 docker run -t -p 8080:80 ambroisemaupate/roadiz
 ```
 
