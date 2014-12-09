@@ -16,7 +16,7 @@ before *building* your own image.
 docker build -t ambroisemaupate/roadiz ./roadiz
 
 # Run me for the first time
-docker run -t -p 8080:80 ambroisemaupate/roadiz
+docker run -d -p 8080:80 ambroisemaupate/roadiz
 
 # Enter in container for config
 docker exec -ti <containerID> /bin/bash
