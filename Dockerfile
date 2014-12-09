@@ -50,6 +50,8 @@ RUN sed -e 's/;cgi.fix_pathinfo = 0/cgi.fix_pathinfo = 0/' -i /etc/php5/fpm/php.
 # Get custom config for xcache
 COPY xcache.ini /etc/php5/mods-available/xcache.ini
 
+# Modify config file to undaemonize nginx
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # ----------- Install Solr --------------
 
