@@ -13,10 +13,10 @@ before *building* your own image.
 
 ```
 # Build me
-docker build -t ambroisemaupate/roadiz ./roadiz
+docker build -t roadiz/roadiz ./roadiz
 
 # Run me for the first time
-docker run -t -p 8080:80 ambroisemaupate/roadiz
+docker run -d -p 8080:80 roadiz/roadiz
 
 # Enter in container for config
 docker exec -ti <containerID> /bin/bash
