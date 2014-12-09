@@ -18,10 +18,9 @@ RUN apt-get update -yqq
 
 # Install MySQL Server in a Non-Interactive mode. Default root password will be "root"
 RUN echo "mysql-server-5.6 mysql-server/root_password password root" | debconf-set-selections && \
-    echo "mysql-server-5.6 mysql-server/root_password_again password root" | debconf-set-selections && \
-    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+    echo "mysql-server-5.6 mysql-server/root_password_again password root" | debconf-set-selections
 
-RUN apt-get install -y openjdk-7-jre-headless nginx zip git curl nano php5-cli php5-fpm mysql-server \
+RUN apt-get install -y supervisor openjdk-7-jre-headless nginx zip git curl nano php5-cli php5-fpm mysql-server \
     php5-xcache php5-gd php5-mysql php5-imap php5-curl php5-imagick php5-intl && \
     apt-get install -y logrotate
 
@@ -53,6 +52,9 @@ COPY xcache.ini /etc/php5/mods-available/xcache.ini
 # Modify config file to undaemonize nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
+# Modify config file to undaemonize php-fpm
+RUN sed -e 's/;daemonize = yes/daemonize = no/' -i /etc/php5/fpm/php-fpm.conf
+
 # ----------- Install Solr --------------
 
 RUN curl http://mir2.ovh.net/ftp.apache.org/dist/lucene/solr/4.10.2/solr-4.10.2.tgz | tar xz && \
@@ -81,8 +83,10 @@ RUN composer install
 # Copy default conf for Roadiz
 COPY config.json /roadiz/conf/config.json
 
+ADD supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+
 RUN chown -R www-data:www-data /roadiz
 
 EXPOSE 80
 
-CMD ["/init.sh"]
+CMD ["/usr/bin/supervisord"]
