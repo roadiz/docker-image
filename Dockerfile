@@ -27,7 +27,7 @@ RUN apt-get install -y supervisor openjdk-7-jre-headless nginx zip git curl nano
 # Copy nginx virtual host
 COPY vhost.conf /etc/nginx/sites-enabled/default
 
-# Prepare private key for downloading Renzo
+# Prepare private key for downloading Roadiz
 RUN mkdir -p /root/.ssh && \
     chmod -R 0700 /root/.ssh && \
     echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
@@ -71,11 +71,8 @@ RUN chmod +x /etc/init.d/solr
 RUN service mysql start && \
     mysql -u root -proot -e "CREATE DATABASE roadiz;"
 
-# Copy startup script
-COPY init.sh /init.sh
-RUN chmod +x /init.sh
 
-#### Install Renzo
+#### Install Roadiz
 WORKDIR /roadiz
 RUN git clone https://github.com/roadiz/roadiz.git ./
 RUN composer install
