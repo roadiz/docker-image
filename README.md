@@ -1,4 +1,4 @@
-# Quick and dirty docker for Roadiz
+# Roadiz test docker image
 **Use only for testing purposes**
 
 * Nginx
@@ -6,16 +6,16 @@
 * PHP5-FPM
 * Solr instance (english)
 
-Run on port 8080 --> 80
-On IP 192.168.59.103. Change in `vhost.conf` with your own network configuration
-before *building* your own image.
+## Before building
 
+Nginx is listening on ip 192.168.59.103 (default Boot2Docker IP on Mac).
+Change it in `vhost.conf` file to suit your own network configuration before *building* your own image.
 
 ```
 # Build me
 docker build -t roadiz/roadiz ./roadiz
 
-# Run me for the first time
+# Run me for the first time on host port 8080
 docker run -d -p 8080:80 roadiz/roadiz
 
 # Enter in container for config
