@@ -2,9 +2,12 @@ FROM debian:wheezy
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV NGINX_SERVER_PORT 8080
+ENV NGINX_SERVER_NAME 192.168.59.103
 
-RUN apt-get update -yqq
-RUN apt-get install -y wget
+
+RUN apt-get update -yqq && \
+    apt-get install -y wget
 
 # Get DotDeb latest packages for latest version
 RUN echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list && \
@@ -14,14 +17,29 @@ RUN echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list &&
     wget http://www.dotdeb.org/dotdeb.gpg && \
     apt-key add dotdeb.gpg
 
-RUN apt-get update -yqq
 
 # Install MySQL Server in a Non-Interactive mode. Default root password will be "root"
 RUN echo "mysql-server-5.6 mysql-server/root_password password root" | debconf-set-selections && \
     echo "mysql-server-5.6 mysql-server/root_password_again password root" | debconf-set-selections
 
-RUN apt-get install -y supervisor openjdk-7-jre-headless nginx zip git curl nano php5-cli php5-fpm mysql-server \
-    php5-xcache php5-gd php5-mysql php5-imap php5-curl php5-imagick php5-intl && \
+RUN apt-get update -yqq && \
+    apt-get install -y \
+    curl \
+    git \
+    mysql-server \
+    nginx \
+    openjdk-7-jre-headless \
+    php5-cli \
+    php5-fpm \
+    php5-xcache \
+    php5-gd \
+    php5-mysql \
+    php5-imap \
+    php5-curl \
+    php5-intl \
+    supervisor \
+    zip \
+    && \
     apt-get install -y logrotate
 
 # Copy nginx virtual host
@@ -62,9 +80,6 @@ RUN curl http://mir2.ovh.net/ftp.apache.org/dist/lucene/solr/4.10.2/solr-4.10.2.
 
 COPY solrCollection /var/solr/example/solr/roadiz
 
-COPY solr.init /etc/init.d/solr
-RUN chmod +x /etc/init.d/solr
-
 # ----------- Install Roadiz ------------
 
 # We need mysql started to create empty database
@@ -74,15 +89,19 @@ RUN service mysql start && \
 
 #### Install Roadiz
 WORKDIR /roadiz
-RUN git clone https://github.com/roadiz/roadiz.git ./
-RUN composer install
+RUN git clone https://github.com/roadiz/roadiz.git ./ && \
+    composer install -n --no-dev
 
 # Copy default conf for Roadiz
 COPY config.json /roadiz/conf/config.json
 
 ADD supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+ADD init.sh /init.sh
 
-RUN chown -R www-data:www-data /roadiz
+RUN chown -R www-data:www-data /roadiz && \
+    chmod +x /init.sh
+
+VOLUME ["/roadiz"]
 
 EXPOSE 80
 
