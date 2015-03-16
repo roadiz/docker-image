@@ -90,7 +90,7 @@ RUN service mysql start && \
 #### Install Roadiz
 WORKDIR /roadiz
 RUN git clone https://github.com/roadiz/roadiz.git ./ && \
-    composer install --n --no-dev
+    composer install -n --no-dev
 
 # Copy default conf for Roadiz
 COPY config.yml /roadiz/conf/config.yml
