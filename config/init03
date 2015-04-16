@@ -1,7 +1,10 @@
-mkdir -p /data/config /data/http /data/logs /data/secure
-cd /data/http
-git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./
-composer install -n --no-dev -o
-cp conf/config.default.yml conf/config.yml
-chown -R core:core /data
-chmod 0770 /data/secure
+if [ ! "$(ls -A /data/http)" ]; then
+    mkdir -p /data/config /data/http /data/logs /data/secure
+    cd /data/http
+    git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./
+    composer install -n --no-dev -o
+    cp conf/config.default.yml conf/config.yml
+    cp -R /config/config /data/config
+    chown -R core:core /data
+    chmod 0770 /data/secure
+fi

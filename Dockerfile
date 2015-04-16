@@ -5,8 +5,6 @@ ENV ROADIZ_BRANCH master
 
 # Get custom config for xcache
 COPY xcache.ini /etc/php5/mods-available/xcache.ini
-# Copy nginx virtual host
-COPY vhost.conf /data/config/nginx-roadiz.conf
 
 RUN apt-get update -yqq && \
     apt-get install -y \
@@ -31,3 +29,5 @@ RUN apt-get update -yqq && \
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     mkdir -p /data/http
+
+ADD config /config
