@@ -34,7 +34,7 @@ docker run -t --name="my-roadiz-mariadb" \
            --env="MARIADB_DB=foo" maxexcloo/mariadb
 ```
 
-* Then you can create your roadiz image:
+## Building Roadiz image
 
 ```
 # Build roadiz image
@@ -43,3 +43,10 @@ docker build -t roadiz/roadiz ./path/to/roadiz-image
 docker run -t --name="my-roadiz" -p 80:80 --env ROADIZ_BRANCH=master \
            --volumes-from="my-roadiz-data" --link="my-roadiz-mariadb:mariadb" roadiz/roadiz
 ```
+
+Your database credentials will be:
+
+* Host: `mariadb`
+* User: `foo`
+* Password: `bar`
+* Database: `foo`
