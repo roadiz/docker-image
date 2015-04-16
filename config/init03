@@ -1,5 +1,4 @@
 if [ ! "$(ls -A /data/http)" ]; then
-    mkdir -p /data/config /data/http /data/logs /data/secure
     cd /data/http
     git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./
     composer install -n --no-dev -o
