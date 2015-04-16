@@ -29,11 +29,5 @@ RUN apt-get update -yqq && \
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer
-
-# Install Roadiz
-RUN mkdir -p /data/http && \
-    cd /data/http && \
-    git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./ && \
-    composer install -n --no-dev -o && \
-    cp conf/config.default.yml conf/config.yml
+    mv composer.phar /usr/local/bin/composer && \
+    mkdir -p /data/http
