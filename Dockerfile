@@ -23,7 +23,8 @@ RUN apt-get update -yqq && \
     make && \
     make install && \
     cd /etc/php5/fpm/conf.d/ && \
-    ln -s ../../mods-available/xcache.ini 20-xcache.ini
+    ln -s ../../mods-available/xcache.ini 20-xcache.ini && \
+    rm /etc/nginx/conf.d/02cache.conf
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php && \
