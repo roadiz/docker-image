@@ -32,3 +32,4 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     mkdir -p /data/http
 
 ADD config /config
+ADD etc /etc
