@@ -86,4 +86,7 @@ ssh-keygen -t rsa -b 2048 -N '' -f /data/secure/ssh/id_rsa \
 # Clone your custom theme
 cd /data/http/themes
 git clone git@github.com:private-account/custom-theme.git CustomTheme
+# Install your theme composer dependencies (if any)
+cd /data/http
+composer update --no-dev -o
 ```
