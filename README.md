@@ -79,7 +79,8 @@ before doing anything in your `/data` folder.
 su -s /bin/bash core
 
 # Generate public/private keys
-ssh-keygen -t rsa -b 2048 -f /data/secure/ssh/id_rsa -C "My deploy key for private github repository"
+ssh-keygen -t rsa -b 2048 -N '' -f /data/secure/ssh/id_rsa \
+           -C "Deploy key ($HOSTNAME) for private repository"
 # Add the generated /data/secure/ssh/id_rsa.pub key to your Github/Gitlab account
 
 # Clone your custom theme
