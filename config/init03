@@ -4,6 +4,7 @@ if [ ! "$(ls -A /data/http)" ]; then
     composer install -n --no-dev -o
     cp conf/config.default.yml conf/config.yml
     cp -R /config/config /data/config
+    rm /etc/nginx/conf.d/02cache.conf
     chown -R core:core /data
     chmod 0770 /data/secure
 fi
