@@ -93,4 +93,4 @@ composer update --no-dev -o
 
 Be careful, this image use *XCache* OPcache and Var cache. If you change your PHP
 sources, you’ll need to restart your container as `xcache.stat` is set to `Off`.
-If this bother you, change this value to `On` in `/etc/php5/mods-available/xcache.ini`.
+If this bothers you, you can change this value to `On` in `/etc/php5/mods-available/xcache.ini`.
