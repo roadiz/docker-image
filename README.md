@@ -60,8 +60,8 @@ parameters and cache in CLI. But before doing anything, pay attention to
 do it as the `core` user, **NOT** the `root` user.
 
 ```bash
-# Switch user with a real shell
-su -s /bin/bash core
+# Switch to core user
+su core
 
 cd /data/http
 # For example clear Roadiz app cache
@@ -75,8 +75,8 @@ Pay attention to generate you *ssh-key* as `core` user: `su -s /bin/bash core`
 before doing anything in your `/data` folder.
 
 ```bash
-# Switch user with a real shell
-su -s /bin/bash core
+# Switch to core user
+su core
 
 # Generate public/private keys
 ssh-keygen -t rsa -b 2048 -N '' -f /data/secure/ssh/id_rsa \
@@ -90,3 +90,7 @@ git clone git@github.com:private-account/custom-theme.git CustomTheme
 cd /data/http
 composer update --no-dev -o
 ```
+
+Be careful, this image use *XCache* OPcache and Var cache. If you change your PHP
+sources, you’ll need to restart your container as `xcache.stat` is set to `Off`.
+If this bother you, change this value to `On` in `/etc/php5/mods-available/xcache.ini`.
