@@ -29,7 +29,6 @@ else
     # Update dependencies
     # and empty roadiz cache
     cd /data/http
-    composer update -n --no-dev -o
     chown -R core:core /data
     chmod 0770 /data/secure
     chmod 0700 /data/.ssh
