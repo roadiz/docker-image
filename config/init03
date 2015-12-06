@@ -15,7 +15,6 @@ then
     cd /data/http
     git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./
     composer install -n --no-dev -o
-    cp conf/config.default.yml conf/config.yml
     chown -R core:core /data
     chmod 0770 /data/secure
     chmod 0700 /data/.ssh
