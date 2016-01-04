@@ -10,6 +10,7 @@ RUN apt-get update -yqq && \
     apt-get install -y \
     curl \
     git \
+    cron \
     php5-curl \
     php5-intl \
     php5-cli \

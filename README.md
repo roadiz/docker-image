@@ -5,6 +5,7 @@
 This image will install:
 
 * Git
+* Cron (crontab)
 * Composer
 * curl
 * php5-cli
