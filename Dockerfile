@@ -10,6 +10,7 @@ RUN apt-get update -yqq && \
     apt-get install -y \
     curl \
     git \
+    cron \
     php5-curl \
     php5-intl \
     php5-cli \
@@ -25,7 +26,8 @@ RUN apt-get update -yqq && \
     cd /etc/php5/fpm/conf.d/ && \
     ln -s ../../mods-available/xcache.ini 20-xcache.ini && \
     rm /etc/nginx/conf.d/02cache.conf && \
-    rm /etc/php5/fpm/conf.d/05-opcache.ini
+    rm /etc/php5/fpm/conf.d/05-opcache.ini && \
+    sed -i'.original' 's/\;date.timezone \=/date.timezone = Europe\/Paris/' /etc/php5/cli/php.ini
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php && \
