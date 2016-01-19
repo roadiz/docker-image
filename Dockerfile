@@ -23,10 +23,9 @@ RUN apt-get update -yqq && \
     ./configure --enable-xcache-optimizer --enable-xcache && \
     make && \
     make install && \
-    cd /etc/php5/fpm/conf.d/ && \
-    ln -s ../../mods-available/xcache.ini 20-xcache.ini && \
     rm /etc/nginx/conf.d/02cache.conf && \
-    rm /etc/php5/fpm/conf.d/05-opcache.ini && \
+    php5dismod -s ALL opcache && \
+    php5enmod -s ALL xcache && \
     sed -i'.original' 's/\;date.timezone \=/date.timezone = Europe\/Paris/' /etc/php5/cli/php.ini
 
 # Install Composer
