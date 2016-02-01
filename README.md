@@ -35,15 +35,13 @@ docker run -t --name="my-roadiz-mariadb" \
            --env="MARIADB_DB=foo" maxexcloo/mariadb
 ```
 
-## Building Roadiz image
+## Run a new Roadiz container
 
 ```bash
-# Build roadiz image
-docker build -t roadiz/roadiz ./path/to/roadiz-image
 # Launch me
-docker run -t --name="my-roadiz" -p 80:80 && \
+docker run -t --name="my-roadiz" -p 80:80 \
               --env ROADIZ_BRANCH=master \
-              --volumes-from="my-roadiz-data" && \
+              --volumes-from="my-roadiz-data" \
               --link="my-roadiz-mariadb:mariadb" roadiz/roadiz
 ```
 
@@ -92,6 +90,4 @@ cd /data/http
 composer update --no-dev -o
 ```
 
-Be careful, this image use *XCache* OPcache and Var cache. If you change your PHP
-sources, you’ll need to restart your container as `xcache.stat` is set to `Off`.
-If this bothers you, you can change this value to `On` in `/etc/php5/mods-available/xcache.ini`.
+Be careful, this image use *XCache* OPcache and Var cache.
