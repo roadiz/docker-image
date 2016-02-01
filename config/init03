@@ -31,5 +31,5 @@ else
     chown -R core:core /data
     chmod 0770 /data/secure
     chmod 0700 /data/.ssh
-    bin/roadiz cache -a --env=prod
+    bin/roadiz cache:clear --env=prod
 fi
