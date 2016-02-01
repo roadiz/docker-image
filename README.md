@@ -59,12 +59,17 @@ parameters and cache in CLI. But before doing anything, pay attention to
 do it as the `core` user, **NOT** the `root` user.
 
 ```bash
-# Switch to core user
-su core
+# On your Docker host
+docker exec -ti --user=core my-roadiz /bin/bash
+
+# Now you’re on your Docker container
+# If you need to use a CLI editor like nano
+# you’ll need to set TERM environment var
+export TERM=xterm
 
 cd /data/http
 # For example clear Roadiz app cache
-bin/roadiz cache --clear-all
+bin/roadiz cache:clear --env=prod
 ```
 
 ## Using a deploy/access key for Github/Gitlab
@@ -74,9 +79,10 @@ Pay attention to generate you *ssh-key* as `core` user: `su -s /bin/bash core`
 before doing anything in your `/data` folder.
 
 ```bash
-# Switch to core user
-su core
+# On your Docker host
+docker exec -ti --user=core my-roadiz /bin/bash
 
+# On your docker container…
 # Generate public/private keys
 ssh-keygen -t rsa -b 2048 -N '' -f /data/secure/ssh/id_rsa \
            -C "Deploy key ($HOSTNAME) for private repository"
