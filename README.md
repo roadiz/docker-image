@@ -24,13 +24,13 @@ Roadiz image will work with:
 * A *maxexcloo/data* container for volume handling:
 
 ```bash
-docker run -t --name="my-roadiz-data" maxexcloo/data
+docker run -d --name="my-roadiz_DATA" maxexcloo/data
 ```
 
 * A *maxexcloo/mariadb* container for its database:
 
 ```bash
-docker run -t --name="my-roadiz-mariadb" \
+docker run -t -d --name="my-roadiz_DB" \
            --env="MARIADB_USER=foo" --env="MARIADB_PASS=bar" \
            --env="MARIADB_DB=foo" maxexcloo/mariadb
 ```
@@ -39,10 +39,10 @@ docker run -t --name="my-roadiz-mariadb" \
 
 ```bash
 # Launch me
-docker run -t --name="my-roadiz" -p 80:80 \
-              --env ROADIZ_BRANCH=master \
-              --volumes-from="my-roadiz-data" \
-              --link="my-roadiz-mariadb:mariadb" roadiz/roadiz
+docker run -t -d --name="my-roadiz" -p 80:80 \
+                 --env ROADIZ_BRANCH=master \
+                 --volumes-from="my-roadiz_DATA" \
+                 --link="my-roadiz_DB:mariadb" roadiz/roadiz
 ```
 
 Your database credentials will be:
